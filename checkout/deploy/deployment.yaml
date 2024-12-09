@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkout
+  labels:
+    app: checkout
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: checkout
+  template:
+    metadata:
+      annotations:
+        dapr.io/app-id: "checkout"
+        dapr.io/enabled: "true"
+        dapr.io/app-port: "5001"
+        dapr.io/metrics-port: "9090"
+        dapr.io/log-level: "debug"
+      labels:
+        app: checkout
+    spec:
+      containers:
+        - name: checkout
+          image: bibryam/checkout
+          ports:
+            - containerPort: 5001

@@ -1,0 +1,36 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: checkout
+
+build:
+  tagPolicy:
+    inputDigest: { }
+  artifacts:
+    - image: bibryam/checkout
+      docker:
+        dockerfile: Dockerfile
+  local: {}
+
+manifests:
+  rawYaml:
+    - deploy/*
+
+deploy:
+  kubectl: {}
+  logs:
+    prefix: auto
+
+portForward:
+  - resourceType: deployment
+    resourceName: checkout
+    port: 5001
+    localPort: 5001
+  - resourceType: deployment
+    resourceName: checkout
+    port: 9090
+    localPort: 5011
+  - resourceType: deployment
+    resourceName: checkout
+    port: 3500
+    localPort: 3501

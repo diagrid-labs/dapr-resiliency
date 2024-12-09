@@ -1,0 +1,8 @@
+### Make a call
+
+POST http://localhost:5001/checkout
+Content-Type: application/json
+
+{
+    "orderId": 10
+}

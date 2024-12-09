@@ -1,0 +1,30 @@
+apiVersion: dapr.io/v1alpha1
+kind: Resiliency
+metadata:
+  name: demo
+  namespace: default
+scopes:
+  - checkout
+spec:
+  policies:
+    timeouts:
+      timeout1: 1s
+    retries:
+      retry1:
+        policy: constant
+        duration: 100ms
+        maxRetries: 5
+        matching:
+          httpStatusCodes: '500'
+    circuitBreakers:
+      circuitBreaker1:
+        maxRequests: 1
+        timeout: 30s
+        trip: consecutiveFailures > 5
+        interval: 0s
+  targets:
+    apps:
+      order-processor:
+        timeout: timeout1
+        retry: retry1
+        circuitBreaker: circuitBreaker1
