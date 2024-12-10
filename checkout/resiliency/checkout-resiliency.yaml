@@ -1,14 +1,14 @@
 apiVersion: dapr.io/v1alpha1
 kind: Resiliency
 metadata:
-  name: demo
+  name: checkout-resiliency
   namespace: default
 scopes:
   - checkout
 spec:
   policies:
     timeouts:
-      timeout1: 1s
+      timeout1: 100ms
     retries:
       retry1:
         policy: constant

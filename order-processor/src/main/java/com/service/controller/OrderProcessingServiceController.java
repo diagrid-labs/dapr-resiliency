@@ -18,11 +18,18 @@ public class OrderProcessingServiceController {
         int orderId = body.getOrderId();
 
         switch (orderId) {
+
+            case 200:
+            {
+                System.out.println("Request Successful (200) ✅");
+                return ResponseEntity.status(HttpStatus.OK).body("Success for order: " + body.getOrderId());
+            }
+
             case 10:
             {
-                if (Math.random() < 0.33) { // 50% chance
+                if (Math.random() < 0.1) { // 10% chance
                     System.out.println("Request Slow       (200) ⏳");
-                    Thread.sleep(Duration.ofSeconds(5).toMillis());
+                    Thread.sleep(Duration.ofSeconds(10).toMillis());
                 } else {
                     System.out.println("Request Successful (200) ✅");
                 }
@@ -48,8 +55,8 @@ public class OrderProcessingServiceController {
                     firstRequestTimestamp = currentTime;
                 }
 
+                // 10-second overload period
                 if (currentTime - firstRequestTimestamp <= 10000) {
-                    // Within the 10-second overload period
                     System.out.println("Service Temporarily Overloaded (503) 🔄");
                     return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("Failure for order: " + body.getOrderId());
                 }
